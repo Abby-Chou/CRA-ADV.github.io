@@ -13,13 +13,16 @@ export const cartReducer = (state, action) => {
 
   const cartList = [...state.cartList];
   const index = cartList.findIndex((item) => item.id === action.payload.id);
-  //   console.log(index);
+  console.log(index);
   //   console.log(action);
   switch (action.type) {
     case "ADD_TO_CART":
       if (index === -1) {
         // 還未加入到購物車內
         cartList.push(action.payload);
+      } else if (cartList[index].quantity + action.payload.quantity >= 20) {
+        alert("每個餐點最多只能點 20 份");
+        cartList[index].quantity = 20;
       } else {
         // 當前購物車的項目與加入的項目一致
         cartList[index].quantity += action.payload.quantity;
