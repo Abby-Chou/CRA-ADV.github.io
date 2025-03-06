@@ -1,5 +1,6 @@
 import { CartContext } from "../store";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+
 import productsData from "../assets/productsData";
 export default function Products() {
   const [state, dispatch] = useContext(CartContext);
@@ -20,15 +21,17 @@ export default function Products() {
                   <select
                     name=""
                     id=""
-                    className="w-100"
-                    // value={state.qty}
+                    className="form-select"
+                    value={product.quantity}
                     onChange={(e) => {
                       e.preventDefault();
-                      const qty = parseInt(e.target.value);
+                      const quantity = parseInt(e.target.value);
+
                       dispatch({
-                        type: "CHANGE_PRODUCT_QUANTITY",
+                        type: "CHANGE_PRODUCTS_QUANTITY",
                         payload: {
-                          qty,
+                          ...product,
+                          quantity,
                         },
                       });
                     }}
@@ -44,12 +47,14 @@ export default function Products() {
                   <button
                     type="button"
                     className="btn btn-outline-success w-100 fw-bold"
-                    onClick={() => {
+                    onClick={(e) => {
+                      const quantity = parseInt(e.target.previousSibling.value);
+                      e.target.previousSibling.value = 1;
                       dispatch({
                         type: "ADD_TO_CART",
                         payload: {
                           ...product,
-                          quantity: state.qty || 1,
+                          quantity,
                         },
                       });
                     }}

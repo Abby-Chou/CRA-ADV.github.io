@@ -20,7 +20,7 @@ export const cartReducer = (state, action) => {
       if (index === -1) {
         // 還未加入到購物車內
         cartList.push(action.payload);
-      } else if (cartList[index].quantity + action.payload.quantity >= 20) {
+      } else if (cartList[index].quantity + action.payload.quantity > 20) {
         alert("每個餐點最多只能點 20 份");
         cartList[index].quantity = 20;
       } else {
@@ -32,7 +32,6 @@ export const cartReducer = (state, action) => {
         ...state,
         cartList,
         total: calculateTotalPrice(cartList),
-        qty: action.payload.qty,
       };
     case "CHANGE_CART_QUANTITY":
       cartList[index].quantity = action.payload.quantity;
@@ -40,7 +39,6 @@ export const cartReducer = (state, action) => {
         ...state,
         cartList,
         total: calculateTotalPrice(cartList),
-        qty: action.payload.qty,
       };
     case "REMOVE_CART_ITEM":
       cartList.splice(index, 1);
@@ -49,14 +47,12 @@ export const cartReducer = (state, action) => {
         ...state,
         cartList,
         total: calculateTotalPrice(cartList),
-        qty: action.payload.qty,
       };
-    case "CHANGE_PRODUCT_QUANTITY":
+    case "CHANGE_PRODUCTS_QUANTITY":
       return {
         ...state,
         cartList,
         total: calculateTotalPrice(cartList),
-        qty: action.payload.qty,
       };
     default:
       return state;
